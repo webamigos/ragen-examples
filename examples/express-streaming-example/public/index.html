@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ragen — Express streaming demo</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
+      textarea { width: 100%; min-height: 80px; font: inherit; padding: 8px; box-sizing: border-box; }
+      button { padding: 10px 16px; cursor: pointer; }
+      pre { background: #f4f4f4; padding: 12px; border-radius: 6px; white-space: pre-wrap; min-height: 60px; }
+    </style>
+  </head>
+  <body>
+    <h1>Ragen — Express streaming demo</h1>
+    <p>Tokens are streamed from <code>GET /ask</code> over Server-Sent Events.</p>
+    <textarea id="q">What is our refund policy?</textarea>
+    <p><button id="go">Ask</button> <button id="stop" disabled>Stop</button></p>
+    <pre id="out"></pre>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      let es = null;
+
+      $("go").addEventListener("click", () => {
+        if (es) es.close();
+        $("out").textContent = "";
+        $("stop").disabled = false;
+
+        const question = $("q").value;
+        es = new EventSource("/ask?question=" + encodeURIComponent(question));
+
+        es.addEventListener("delta", (e) => { $("out").textContent += e.data; });
+        es.addEventListener("done", () => { es.close(); $("stop").disabled = true; });
+        es.addEventListener("error", (e) => {
+          $("out").textContent += "\n[stream error] " + (e.data || "connection lost");
+          es.close();
+          $("stop").disabled = true;
+        });
+      });
+
+      $("stop").addEventListener("click", () => {
+        if (es) es.close();
+        $("stop").disabled = true;
+      });
+    </script>
+  </body>
+</html>
