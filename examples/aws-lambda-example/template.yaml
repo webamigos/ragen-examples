@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Ragen SDK example — AWS Lambda behind an HTTP API.
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Timeout: 30
+    MemorySize: 512
+
+Parameters:
+  RagenApiKey:
+    Type: String
+    NoEcho: true
+    Description: Your Ragen API key (sk-...).
+  RagenAssistantId:
+    Type: String
+    Description: The Ragen Assistant ID to query.
+
+Resources:
+  AskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/
+      Handler: handler.handler
+      Environment:
+        Variables:
+          RAGEN_API_KEY: !Ref RagenApiKey
+          RAGEN_ASSISTANT_ID: !Ref RagenAssistantId
+      Events:
+        Ask:
+          Type: HttpApi
+          Properties:
+            Path: /ask
+            Method: POST
+
+Outputs:
+  ApiEndpoint:
+    Description: HTTP API endpoint
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/ask"
