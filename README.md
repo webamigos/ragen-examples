@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ragen examples
 
-## Getting Started
+A collection of standalone example projects showing how to use [`@ragenai/sdk`](https://www.npmjs.com/package/@ragenai/sdk) and the Ragen API.
 
-First, run the development server:
+Each example lives in its own folder under `examples/` and is fully independent — install and run it directly, no workspace setup required.
+
+## Examples
+
+| Example | Description |
+| --- | --- |
+| [`nextjs-example`](./examples/nextjs-example) | Next.js (App Router) app that calls the Ragen SDK from a server action triggered by a button click. |
+| [`express-example`](./examples/express-example) | Express server exposing a `POST /ask` endpoint that proxies questions to the Ragen SDK. |
+| [`express-streaming-example`](./examples/express-streaming-example) | Express server that streams Ragen completions over SSE and chunked plain text, with a browser demo page. |
+| [`fastify-example`](./examples/fastify-example) | Fastify server with schema-validated `POST /ask` endpoint that calls the Ragen SDK. |
+| [`hono-streaming-example`](./examples/hono-streaming-example) | Hono server that streams Ragen completions back to the client over SSE and chunked plain text. |
+| [`aws-lambda-example`](./examples/aws-lambda-example) | AWS Lambda handler bundled with esbuild and deployable via AWS SAM behind an HTTP API. |
+| [`nestjs-example`](./examples/nestjs-example) | NestJS app with an injectable `RagenService` wired through a Nest module and exposed via a `POST /ask` controller. |
+
+## Getting started
+
+Pick an example, then follow its README:
 
 ```bash
+cd examples/nextjs-example
+cp .env.example .env.local   # fill in RAGEN_API_KEY and RAGEN_ASSISTANT_ID
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You will need a Ragen API token and an Assistant ID — see the [Ragen docs](https://docs.ragen.ai/) for setup.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pull requests with new examples or improvements to existing ones are very welcome. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the layout, naming conventions, and PR checklist. CI runs `tsc --noEmit` against every example on every PR.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT — see [`LICENSE`](./LICENSE).
