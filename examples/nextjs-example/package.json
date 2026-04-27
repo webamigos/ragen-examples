@@ -1,5 +1,5 @@
 {
-  "name": "ragen-test",
+  "name": "ragenai-nextjs-example",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/openai-compatible": "^2.0.41",
+    "@ai-sdk/react": "^3.0.170",
+    "@ragenai/sdk": "^0.1.2",
+    "ai": "^6.0.168",
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4"

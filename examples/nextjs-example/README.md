@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# @ragenai/sdk — Next.js example
 
-## Getting Started
+Two ways to call Ragen from a [Next.js](https://nextjs.org) (App Router) app:
 
-First, run the development server:
+1. **`/`** — single-shot question via a React **[server action](https://nextjs.org/docs/app/getting-started/mutating-data)** that uses [`@ragenai/sdk`](https://www.npmjs.com/package/@ragenai/sdk) directly.
+2. **`/chat`** — streaming chat UI built with the **[Vercel AI SDK](https://ai-sdk.dev/)** (`useChat` + `streamText`) talking to Ragen via its OpenAI-compatible endpoint.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A Ragen account, an API key, and an Assistant ID. Create them in the Ragen dashboard — see the [Ragen docs](https://docs.ragen.ai/) for details on issuing tokens and setting up assistants.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Install dependencies:
 
-## Learn More
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Copy `.env.example` to `.env.local` and fill in your credentials:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   cp .env.example .env.local
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```dotenv
+   RAGEN_API_KEY="sk-..."           # your Ragen API token
+   RAGEN_ASSISTANT_ID="..."         # the assistant you want to query
+   ```
 
-## Deploy on Vercel
+   Without valid values both pages will fail at runtime. Keep `.env.local` out of version control (it is already in `.gitignore`).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Start the dev server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000):
+   - Click **Ask Ragen** on the home page for the server-action example.
+   - Visit [/chat](http://localhost:3000/chat) for the Vercel AI SDK streaming chat.
+
+## How it works
+
+### Server action (`/`)
+
+- `app/actions.ts` — server function marked with `"use server"`. Instantiates the Ragen client using env vars and returns the assistant's reply.
+- `app/ask-button.tsx` — client component with a button that calls the action via `useTransition` and shows the result.
+- `app/page.tsx` — server component that renders the button.
+
+### Vercel AI SDK chat (`/chat`)
+
+- `lib/ragen-provider.ts` — wraps `@ai-sdk/openai-compatible` pointed at `https://api.ragen.ai/v1`. A custom `fetch` injects `assistantId` (Ragen's required field) into the JSON body.
+- `app/api/chat/route.ts` — POST handler that calls `streamText({ model: ragenModel, messages })` and returns a UI message stream response (`result.toUIMessageStreamResponse()`).
+- `app/chat/chat-ui.tsx` — client component using `useChat` (from `@ai-sdk/react`) with `DefaultChatTransport` to stream tokens into the chat transcript.
+
+> Why two approaches?
+> - The **server action** path keeps you on the Ragen SDK end-to-end — best when you want full control over request shape, file uploads, or non-chat APIs.
+> - The **Vercel AI SDK** path gives you `useChat`, message-state management, and ecosystem tooling for free, by leveraging Ragen's OpenAI-compatible wire format.
+
+## Learn more
+
+- [Ragen documentation](https://docs.ragen.ai/)
+- [`@ragenai/sdk` on npm](https://www.npmjs.com/package/@ragenai/sdk)
+- [Vercel AI SDK](https://ai-sdk.dev/)
+- [Next.js Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data)
