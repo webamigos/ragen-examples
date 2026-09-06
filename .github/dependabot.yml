@@ -36,6 +36,17 @@ updates:
         update-types: [version-update:semver-major]
       - dependency-name: hono
         update-types: [version-update:semver-major]
+      # Toolchain majors are pinned deliberately, not left to Dependabot.
+      # @types/node must describe the oldest runtime the examples claim to
+      # support (Node 18+, CI runs 20) — bumping it to Node 26 types would
+      # typecheck code against APIs that are absent at runtime. TypeScript 7
+      # is the native port and needs tsconfig changes per example
+      # ("types": ["node"] where nothing else pulls in node types, and
+      # moduleResolution=node10 is removed), so it moves on our schedule.
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: github-actions
     directory: /
