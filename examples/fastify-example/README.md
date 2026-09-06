@@ -1,6 +1,6 @@
 # Ragen — Fastify example
 
-Minimal [Fastify](https://fastify.dev/) server exposing a `POST /ask` endpoint that calls [`@ragenai/sdk`](https://www.npmjs.com/package/@ragenai/sdk) and returns the assistant's reply. Uses Fastify's built-in JSON-schema validation for the request body.
+Minimal [Fastify](https://fastify.dev/) server exposing a `POST /ask` endpoint that calls [`@webamigos/ragen-sdk-ts`](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts) and returns the assistant's reply. Uses Fastify's built-in JSON-schema validation for the request body.
 
 ## Prerequisites
 
@@ -49,5 +49,5 @@ A Ragen API token and an Assistant ID. Create them in the Ragen dashboard — se
 ## Learn more
 
 - [Ragen documentation](https://docs.ragen.ai/)
-- [`@ragenai/sdk` on npm](https://www.npmjs.com/package/@ragenai/sdk)
+- [`@webamigos/ragen-sdk-ts` on npm](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts)
 - [Fastify documentation](https://fastify.dev/docs/latest/)

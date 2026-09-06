@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import type { Ragen } from "@ragenai/sdk";
+import type { Ragen } from "@webamigos/ragen-sdk-ts";
 import { RAGEN_CLIENT } from "./ragen.module";
 
 @Injectable()

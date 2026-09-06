@@ -1,6 +1,6 @@
 # Ragen examples
 
-A collection of standalone example projects showing how to use [`@ragenai/sdk`](https://www.npmjs.com/package/@ragenai/sdk) and the Ragen API.
+A collection of standalone example projects showing how to use [`@webamigos/ragen-sdk-ts`](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts) and the Ragen API.
 
 Each example lives in its own folder under `examples/` and is fully independent — install and run it directly, no workspace setup required.
 
