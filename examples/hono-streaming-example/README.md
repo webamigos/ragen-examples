@@ -5,7 +5,7 @@
 - **`GET /ask?question=...`** — [Server-Sent Events](https://developer.mozilla.org/docs/Web/API/Server-sent_events) (`text/event-stream`). Each token is emitted as a `delta` event; a final `done` event signals completion.
 - **`POST /ask`** — chunked plain text (`text/plain`). Each token is appended to the response body as it arrives.
 
-Both use [`ragen.chat.completions.stream(...)`](https://www.npmjs.com/package/@ragenai/sdk) under the hood.
+Both use [`ragen.chat.completions.stream(...)`](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts) under the hood.
 
 ## Prerequisites
 
@@ -69,5 +69,5 @@ es.addEventListener("error", (e) => { console.error(e); es.close(); });
 ## Learn more
 
 - [Ragen documentation](https://docs.ragen.ai/)
-- [`@ragenai/sdk` on npm](https://www.npmjs.com/package/@ragenai/sdk)
+- [`@webamigos/ragen-sdk-ts` on npm](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts)
 - [Hono streaming helpers](https://hono.dev/docs/helpers/streaming)

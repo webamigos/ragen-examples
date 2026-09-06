@@ -1,6 +1,6 @@
 # Ragen — NestJS example
 
-[NestJS](https://nestjs.com) app with a `RagenModule` that provides an injectable `RagenService` wrapping [`@ragenai/sdk`](https://www.npmjs.com/package/@ragenai/sdk), and a controller exposing `POST /ask`.
+[NestJS](https://nestjs.com) app with a `RagenModule` that provides an injectable `RagenService` wrapping [`@webamigos/ragen-sdk-ts`](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts), and a controller exposing `POST /ask`.
 
 The Ragen client is created once per app via a Nest factory provider and configured from environment variables through `@nestjs/config`.
 
@@ -51,5 +51,5 @@ The same `RagenService` can be injected anywhere else in the app (other controll
 ## Learn more
 
 - [Ragen documentation](https://docs.ragen.ai/)
-- [`@ragenai/sdk` on npm](https://www.npmjs.com/package/@ragenai/sdk)
+- [`@webamigos/ragen-sdk-ts` on npm](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts)
 - [NestJS documentation](https://docs.nestjs.com/)

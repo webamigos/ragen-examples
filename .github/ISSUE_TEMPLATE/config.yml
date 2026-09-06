@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability or committed credential
+    url: https://github.com/webamigos/ragen-examples/security/advisories/new
+    about: Report privately — never in a public issue. See SECURITY.md.
+  - name: Bug in the SDK itself
+    url: https://github.com/webamigos/ragen-sdk-ts/issues
+    about: If the problem is in @webamigos/ragen-sdk-ts rather than in an example, report it there.
+  - name: Ragen platform docs
+    url: https://docs.ragen.ai
+    about: API reference and credential setup.

@@ -1,5 +1,5 @@
 {
-  "name": "ragenai-express-streaming-example",
+  "name": "ragenai-express-embedded-chat-example",
   "version": "0.1.0",
   "private": true,
   "type": "module",

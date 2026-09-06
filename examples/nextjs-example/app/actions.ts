@@ -1,6 +1,6 @@
 "use server";
 
-import { Ragen } from "@ragenai/sdk";
+import { Ragen } from "@webamigos/ragen-sdk-ts";
 
 export async function askRagen(question: string) {
   const ragen = new Ragen({

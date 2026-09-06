@@ -2,7 +2,7 @@ import "dotenv/config";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { streamSSE, streamText } from "hono/streaming";
-import { Ragen } from "@ragenai/sdk";
+import { Ragen } from "@webamigos/ragen-sdk-ts";
 
 const app = new Hono();
 const ragen = new Ragen({ apiKey: process.env.RAGEN_API_KEY });

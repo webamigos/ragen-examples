@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
-    "@ragenai/sdk": "^0.1.2",
+    "@webamigos/ragen-sdk-ts": "^0.2.0",
     "dotenv": "^16.4.5",
     "hono": "^4.6.13"
   },

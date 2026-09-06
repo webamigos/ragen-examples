@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import { Ragen } from "@ragenai/sdk";
+import { Ragen } from "@webamigos/ragen-sdk-ts";
 
 const app = express();
 app.use(express.json());

@@ -1,0 +1,47 @@
+version: 2
+
+updates:
+  # Each example is standalone with its own package.json and lockfile, so there
+  # is no root manifest to watch — `directories` fans out across all of them.
+  # A new example is picked up automatically by the glob.
+  - package-ecosystem: npm
+    directories:
+      - /examples/*
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      # These are teaching examples, not deployed services — one grouped PR per
+      # example is plenty of churn. Security updates are excluded from grouping
+      # by Dependabot, so they still arrive on their own.
+      all-dependencies:
+        patterns:
+          - "*"
+        update-types: [minor, patch]
+    ignore:
+      # Framework majors change the idiom an example is teaching, so they get
+      # rewritten by hand rather than bumped automatically.
+      - dependency-name: next
+        update-types: [version-update:semver-major]
+      - dependency-name: express
+        update-types: [version-update:semver-major]
+      - dependency-name: fastify
+        update-types: [version-update:semver-major]
+      - dependency-name: "@nestjs/*"
+        update-types: [version-update:semver-major]
+      - dependency-name: hono
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
+    commit-message:
+      prefix: ci

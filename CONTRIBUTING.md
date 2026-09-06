@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in adding to **`ragenai/examples`**! This repo collects small, standalone examples of using [`@ragenai/sdk`](https://www.npmjs.com/package/@ragenai/sdk) and the Ragen API. The goal is for someone to land in any folder and have a working app within a minute.
+Thanks for your interest in adding to **`webamigos/ragen-examples`**! This repo collects small, standalone examples of using [`@webamigos/ragen-sdk-ts`](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts) and the Ragen API. The goal is for someone to land in any folder and have a working app within a minute.
 
 ## Ground rules
 
@@ -47,7 +47,7 @@ examples/<name>/
 ## Updating an existing example
 
 - Keep changes minimal and focused. If a change is large enough to need its own README section, it probably belongs in a new variant folder (e.g. `nextjs-streaming-example`) rather than in the existing example.
-- Bump `@ragenai/sdk` to the latest published version when relevant.
+- Bump `@webamigos/ragen-sdk-ts` to the latest published version when relevant.
 - Re-run `npx tsc --noEmit` after any change.
 
 ## CI
@@ -56,4 +56,20 @@ A GitHub Actions workflow runs `npm install && npx tsc --noEmit` for every examp
 
 ## Questions
 
-Open a [GitHub issue](https://github.com/ragenai/examples/issues) for bugs, requests for new examples, or anything unclear.
+Open a [GitHub issue](https://github.com/webamigos/ragen-examples/issues) for bugs, requests for new examples, or anything unclear.
+
+## Security
+
+Never open a public issue for a vulnerability — in an example, in the SDK, or in
+the Ragen platform. See [`SECURITY.md`](./SECURITY.md).
+
+The most common security mistake in this repo is a committed credential. Every
+example ships a `.env.example` with empty values; a real `.env` or `.env.local`
+must never be committed, and an API key must never appear in a README, a code
+comment, or a screenshot.
+
+## Licensing
+
+Contributions are accepted under the [Apache License 2.0](./LICENSE), the same
+license that covers the project. By opening a pull request you confirm you have
+the right to contribute the code and agree to license it under those terms.

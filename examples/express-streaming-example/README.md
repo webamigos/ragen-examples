@@ -5,7 +5,7 @@
 - **`GET /ask?question=...`** — [Server-Sent Events](https://developer.mozilla.org/docs/Web/API/Server-sent_events) (`text/event-stream`). Each token is sent as a `delta` event; a final `done` event signals completion.
 - **`POST /ask`** — chunked plain text. Each token is appended to the response body as it arrives.
 
-Both consume [`ragen.chat.completions.stream(...)`](https://www.npmjs.com/package/@ragenai/sdk) and forward `choices[0].delta.content`. Client disconnects abort the upstream request via `AbortController`.
+Both consume [`ragen.chat.completions.stream(...)`](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts) and forward `choices[0].delta.content`. Client disconnects abort the upstream request via `AbortController`.
 
 A small browser demo at [http://localhost:3000](http://localhost:3000) consumes the SSE stream with `EventSource`.
 
@@ -62,5 +62,5 @@ curl -N -X POST http://localhost:3000/ask \
 ## Learn more
 
 - [Ragen documentation](https://docs.ragen.ai/)
-- [`@ragenai/sdk` on npm](https://www.npmjs.com/package/@ragenai/sdk)
+- [`@webamigos/ragen-sdk-ts` on npm](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts)
 - [MDN — Server-Sent Events](https://developer.mozilla.org/docs/Web/API/Server-sent_events)

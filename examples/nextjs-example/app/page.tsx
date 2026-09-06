@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-10 font-sans">
       <h1 className="mb-2 text-2xl font-semibold tracking-tight">
-        @ragenai/sdk — Next.js example
+        @webamigos/ragen-sdk-ts — Next.js example
       </h1>
       <p className="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
         Two ways to call Ragen from a Next.js app:

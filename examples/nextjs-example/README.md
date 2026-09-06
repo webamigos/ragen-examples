@@ -1,8 +1,8 @@
-# @ragenai/sdk — Next.js example
+# @webamigos/ragen-sdk-ts — Next.js example
 
 Two ways to call Ragen from a [Next.js](https://nextjs.org) (App Router) app:
 
-1. **`/`** — single-shot question via a React **[server action](https://nextjs.org/docs/app/getting-started/mutating-data)** that uses [`@ragenai/sdk`](https://www.npmjs.com/package/@ragenai/sdk) directly.
+1. **`/`** — single-shot question via a React **[server action](https://nextjs.org/docs/app/getting-started/mutating-data)** that uses [`@webamigos/ragen-sdk-ts`](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts) directly.
 2. **`/chat`** — streaming chat UI built with the **[Vercel AI SDK](https://ai-sdk.dev/)** (`useChat` + `streamText`) talking to Ragen via its OpenAI-compatible endpoint.
 
 ## Prerequisites
@@ -61,6 +61,6 @@ A Ragen account, an API key, and an Assistant ID. Create them in the Ragen dashb
 ## Learn more
 
 - [Ragen documentation](https://docs.ragen.ai/)
-- [`@ragenai/sdk` on npm](https://www.npmjs.com/package/@ragenai/sdk)
+- [`@webamigos/ragen-sdk-ts` on npm](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts)
 - [Vercel AI SDK](https://ai-sdk.dev/)
 - [Next.js Server Functions](https://nextjs.org/docs/app/getting-started/mutating-data)

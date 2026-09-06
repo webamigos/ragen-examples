@@ -1,6 +1,6 @@
 import "dotenv/config";
 import Fastify from "fastify";
-import { Ragen } from "@ragenai/sdk";
+import { Ragen } from "@webamigos/ragen-sdk-ts";
 
 const app = Fastify({ logger: true });
 const ragen = new Ragen({ apiKey: process.env.RAGEN_API_KEY });

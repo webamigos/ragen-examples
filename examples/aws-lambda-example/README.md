@@ -1,6 +1,6 @@
 # Ragen — AWS Lambda example
 
-AWS Lambda handler that calls [`@ragenai/sdk`](https://www.npmjs.com/package/@ragenai/sdk) and returns the assistant's reply. Bundled with `esbuild` and deployable via [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/) behind an HTTP API.
+AWS Lambda handler that calls [`@webamigos/ragen-sdk-ts`](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts) and returns the assistant's reply. Bundled with `esbuild` and deployable via [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/) behind an HTTP API.
 
 The Ragen client is instantiated at module scope so it is reused across warm invocations.
 
@@ -77,5 +77,5 @@ curl -X POST "$ApiEndpoint" \
 ## Learn more
 
 - [Ragen documentation](https://docs.ragen.ai/)
-- [`@ragenai/sdk` on npm](https://www.npmjs.com/package/@ragenai/sdk)
+- [`@webamigos/ragen-sdk-ts` on npm](https://www.npmjs.com/package/@webamigos/ragen-sdk-ts)
 - [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/)

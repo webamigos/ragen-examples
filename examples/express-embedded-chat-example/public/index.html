@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ragen — embedded chat demo</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 0; color: #1a1a1a; background: #fafafa; }
+      #doc { max-width: 680px; margin: 40px auto 160px; padding: 0 16px; line-height: 1.6; }
+      #doc h1 { margin-bottom: 4px; }
+      #doc .lede { color: #666; margin-top: 0; }
+      #doc h2 { margin-top: 32px; font-size: 1.1rem; }
+      #doc table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+      #doc th, #doc td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; font-size: 0.95rem; }
+
+      #widget {
+        position: fixed; right: 20px; bottom: 20px; width: 360px; max-width: calc(100vw - 40px);
+        background: #fff; border: 1px solid #ddd; border-radius: 10px;
+        box-shadow: 0 8px 28px rgba(0,0,0,.12); overflow: hidden;
+      }
+      #widget header { padding: 10px 14px; background: #f4f4f4; border-bottom: 1px solid #eee; font-weight: 600; font-size: .9rem; }
+      #widget .body { padding: 12px 14px; max-height: 60vh; overflow-y: auto; }
+      textarea { width: 100%; min-height: 60px; font: inherit; padding: 8px; box-sizing: border-box; }
+      button { padding: 8px 14px; cursor: pointer; font: inherit; }
+      button[disabled] { cursor: not-allowed; opacity: .5; }
+      .row { display: flex; gap: 8px; align-items: center; margin: 8px 0; flex-wrap: wrap; }
+      .hint { color: #666; font-size: .8rem; }
+      details { margin: 10px 0; border: 1px dashed #ccc; border-radius: 6px; padding: 8px 10px; background: #fcfcfc; }
+      details[hidden] { display: none; }
+      summary { cursor: pointer; font-size: .85rem; color: #555; }
+      #reasoning { white-space: pre-wrap; font-size: .8rem; color: #666; margin-top: 8px; }
+      #answer { white-space: pre-wrap; background: #f4f4f4; border-radius: 6px; padding: 10px; min-height: 40px; }
+    </style>
+  </head>
+  <body>
+    <!-- Stand-in for whatever page the widget is embedded on. Its text is what
+         gets sent as `context`, so the assistant can answer about it without
+         any of it being in the knowledge base. -->
+    <article id="doc">
+      <h1>Acme Cloud — Billing and refunds</h1>
+      <p class="lede">Last updated 12 March. Applies to all Acme Cloud plans except Enterprise, which is governed by its own contract.</p>
+
+      <h2>Billing cycle</h2>
+      <p>Acme Cloud bills monthly in arrears, on the same day of the month as your signup date. If your signup day does not exist in a given month (e.g. the 31st in February), you are billed on the last day of that month instead. Invoices are issued in EUR and include VAT where applicable.</p>
+
+      <h2>Plan changes</h2>
+      <p>Upgrades take effect immediately and are prorated for the remainder of the cycle. Downgrades take effect at the start of the next cycle — you keep the higher plan's limits until then, and no credit is issued for the unused portion.</p>
+
+      <table>
+        <tr><th>Plan</th><th>Monthly</th><th>Included seats</th><th>Overage per seat</th></tr>
+        <tr><td>Starter</td><td>€29</td><td>3</td><td>€12</td></tr>
+        <tr><td>Team</td><td>€99</td><td>10</td><td>€9</td></tr>
+        <tr><td>Business</td><td>€349</td><td>40</td><td>€7</td></tr>
+      </table>
+
+      <h2>Refunds</h2>
+      <p>A first subscription can be refunded in full within 14 days of the initial charge, provided the account used under 10% of its included seat-hours. After 14 days, refunds are issued as account credit rather than to the original payment method.</p>
+      <p>Overage charges are not refundable once the cycle has closed, because the underlying capacity was already reserved. If overage was caused by an incident on our side, open a support ticket and we will waive it as a one-off credit.</p>
+
+      <h2>Failed payments</h2>
+      <p>A failed charge is retried after 3, 5 and 7 days. After the third failure the workspace moves to read-only: existing deployments keep serving traffic, but no new deployments can be created. Data is retained for 30 days from that point, and deleted afterwards.</p>
+
+      <h2>Cancellation</h2>
+      <p>Cancelling stops the next renewal; the current cycle runs to its end. Export your data before the cycle closes — after cancellation the export API is available for 30 days, then the workspace is purged.</p>
+    </article>
+
+    <section id="widget">
+      <header>Ask about this page</header>
+      <div class="body">
+        <textarea id="q">If I downgrade today, when does it take effect?</textarea>
+
+        <div class="row">
+          <label class="hint">Reasoning
+            <select id="effort">
+              <option value="">default</option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
+            </select>
+          </label>
+          <button id="go">Ask</button>
+          <button id="stop" disabled>Stop</button>
+        </div>
+
+        <p class="hint" id="meta"></p>
+
+        <details id="thinking" hidden>
+          <summary>Model reasoning (separate stream)</summary>
+          <div id="reasoning"></div>
+        </details>
+
+        <div id="answer"></div>
+      </div>
+    </section>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      // Matches the server's cap, so a long page is trimmed before it goes over
+      // the wire rather than after.
+      const MAX_CONTEXT = 20000;
+
+      let controller = null;
+
+      function pageContext() {
+        return $("doc").innerText.replace(/\n{3,}/g, "\n\n").trim().slice(0, MAX_CONTEXT);
+      }
+
+      // Minimal SSE frame parser. `EventSource` would do this for us, but it
+      // only speaks GET — and the context is far too long for a query string.
+      function parseFrame(frame) {
+        let event = "message";
+        const data = [];
+        for (const line of frame.split("\n")) {
+          if (line.startsWith("event:")) event = line.slice(6).trim();
+          else if (line.startsWith("data:")) data.push(line.slice(5).trim());
+        }
+        if (!data.length) return null;
+        try {
+          return { event, data: JSON.parse(data.join("\n")) };
+        } catch {
+          return null;
+        }
+      }
+
+      function finish() {
+        controller = null;
+        $("go").disabled = false;
+        $("stop").disabled = true;
+      }
+
+      async function ask() {
+        const content = $("q").value.trim();
+        if (!content) return;
+
+        const context = pageContext();
+        $("answer").textContent = "";
+        $("reasoning").textContent = "";
+        $("thinking").hidden = true;
+        $("thinking").open = false;
+        $("meta").textContent = `Sending ${context.length} characters of page context…`;
+        $("go").disabled = true;
+        $("stop").disabled = false;
+
+        controller = new AbortController();
+
+        try {
+          const res = await fetch("/chat", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              content,
+              context,
+              reasoning_effort: $("effort").value || undefined,
+            }),
+            signal: controller.signal,
+          });
+
+          if (!res.ok || !res.body) {
+            const body = await res.json().catch(() => ({}));
+            $("answer").textContent = `[error] ${body.error || res.statusText}`;
+            return finish();
+          }
+
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = "";
+
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            // A frame ends at a blank line; whatever trails it is a partial
+            // frame and waits for the next chunk.
+            const frames = buffer.split("\n\n");
+            buffer = frames.pop() ?? "";
+
+            for (const raw of frames) {
+              const frame = parseFrame(raw);
+              if (!frame) continue;
+
+              if (frame.event === "text") {
+                $("answer").textContent += frame.data.text;
+              } else if (frame.event === "reasoning") {
+                // Reasoning goes to its own panel. Appending it to #answer
+                // instead is exactly the bug `sendStream()` exists to prevent.
+                $("thinking").hidden = false;
+                $("reasoning").textContent += frame.data.reasoning;
+              } else if (frame.event === "error") {
+                $("answer").textContent += `\n[error] ${frame.data.message}`;
+              }
+            }
+          }
+          $("meta").textContent = `Answered from ${context.length} characters of page context.`;
+        } catch (err) {
+          if (err.name !== "AbortError") {
+            $("answer").textContent += `\n[error] ${err.message}`;
+          }
+        }
+        finish();
+      }
+
+      $("go").addEventListener("click", ask);
+      $("stop").addEventListener("click", () => {
+        if (controller) controller.abort();
+        $("meta").textContent = "Stopped.";
+        finish();
+      });
+    </script>
+  </body>
+</html>
