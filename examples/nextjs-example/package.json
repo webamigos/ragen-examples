@@ -12,7 +12,7 @@
     "@ai-sdk/openai-compatible": "^2.0.41",
     "@ai-sdk/react": "^3.0.170",
     "@webamigos/ragen-sdk-ts": "^0.2.0",
-    "ai": "^6.0.168",
+    "ai": "^7.0.91",
     "next": "16.3.4",
     "react": "19.2.8",
     "react-dom": "19.2.8"
