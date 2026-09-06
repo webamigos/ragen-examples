@@ -11,6 +11,7 @@ Each example lives in its own folder under `examples/` and is fully independent 
 | [`nextjs-example`](./examples/nextjs-example) | Next.js (App Router) app that calls the Ragen SDK from a server action triggered by a button click. |
 | [`express-example`](./examples/express-example) | Express server exposing a `POST /ask` endpoint that proxies questions to the Ragen SDK. |
 | [`express-streaming-example`](./examples/express-streaming-example) | Express server that streams Ragen completions over SSE and chunked plain text, with a browser demo page. |
+| [`express-embedded-chat-example`](./examples/express-embedded-chat-example) | Embedded chat widget on Ragen's native `/v1/chat`: sends the host page as `context` and renders model reasoning separately from the answer. |
 | [`fastify-example`](./examples/fastify-example) | Fastify server with schema-validated `POST /ask` endpoint that calls the Ragen SDK. |
 | [`hono-streaming-example`](./examples/hono-streaming-example) | Hono server that streams Ragen completions back to the client over SSE and chunked plain text. |
 | [`aws-lambda-example`](./examples/aws-lambda-example) | AWS Lambda handler bundled with esbuild and deployable via AWS SAM behind an HTTP API. |

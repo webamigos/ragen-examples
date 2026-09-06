@@ -17,6 +17,7 @@ jobs:
           - nextjs-example
           - express-example
           - express-streaming-example
+          - express-embedded-chat-example
           - fastify-example
           - hono-streaming-example
           - aws-lambda-example
