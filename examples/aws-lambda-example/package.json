@@ -11,11 +11,11 @@
     "@webamigos/ragen-sdk-ts": "^0.2.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.145",
+    "@types/aws-lambda": "^8.10.163",
     "dotenv": "^16.4.5",
     "@types/node": "^20",
-    "esbuild": "^0.24.0",
-    "tsx": "^4.19.2",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }
