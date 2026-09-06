@@ -29,7 +29,13 @@ app.get("/ask", async (req, res) => {
   res.flushHeaders();
 
   const controller = new AbortController();
-  req.on("close", () => controller.abort());
+  // Listen on the *response*, not the request. A request stream completes as
+  // soon as its body is read, so `req`'s "close" fires immediately on any
+  // request that has one — aborting the upstream call before it streams
+  // anything. `res` closes when the client actually goes away.
+  res.on("close", () => {
+    if (!res.writableEnded) controller.abort();
+  });
 
   const writeEvent = (event: string, data: string) => {
     // SSE: each `data:` line is one chunk; multi-line payloads must be split.
@@ -74,7 +80,13 @@ app.post("/ask", async (req, res) => {
   res.setHeader("x-accel-buffering", "no");
 
   const controller = new AbortController();
-  req.on("close", () => controller.abort());
+  // Listen on the *response*, not the request. A request stream completes as
+  // soon as its body is read, so `req`'s "close" fires immediately on any
+  // request that has one — aborting the upstream call before it streams
+  // anything. `res` closes when the client actually goes away.
+  res.on("close", () => {
+    if (!res.writableEnded) controller.abort();
+  });
 
   try {
     const chunks = ragen.chat.completions.stream(
