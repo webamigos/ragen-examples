@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "^2.0.41",
-    "@ai-sdk/react": "^3.0.170",
+    "@ai-sdk/react": "^4.0.94",
     "@webamigos/ragen-sdk-ts": "^0.2.0",
     "ai": "^6.0.168",
     "next": "16.3.4",
