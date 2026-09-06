@@ -35,4 +35,7 @@ Pull requests with new examples or improvements to existing ones are very welcom
 
 ## License
 
-MIT — see [`LICENSE`](./LICENSE).
+Licensed under the [Apache License 2.0](./LICENSE). See [`NOTICE`](./NOTICE) for
+attribution requirements.
+
+Security issues go through [`SECURITY.md`](./SECURITY.md), never a public issue.

@@ -1,0 +1,24 @@
+# CODEOWNERS — sensitive paths that need a named reviewer even when someone else
+# has already approved the PR.
+#
+# GOTCHA: GitHub applies the LAST matching pattern only. A later, broader rule
+# silently overrides an earlier, narrower one — so order matters, and the most
+# specific rules belong at the BOTTOM of this file, not the top.
+
+# Default: anything not matched below.
+*                                       @patrykomiotek
+
+# CI. The tsc --noEmit matrix is the only thing stopping a broken example from
+# landing, and its example list has to be kept in sync by hand.
+/.github/workflows/                     @patrykomiotek
+
+# Credential templates. These are the files people copy, so a mistake here
+# teaches the mistake — and a real value committed to one is a live leak.
+**/.env.example                         @patrykomiotek
+**/.gitignore                           @patrykomiotek
+
+# Licensing, security policy and this file itself.
+/LICENSE                                @patrykomiotek
+/NOTICE                                 @patrykomiotek
+/SECURITY.md                            @patrykomiotek
+/.github/CODEOWNERS                     @patrykomiotek

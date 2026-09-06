@@ -57,3 +57,19 @@ A GitHub Actions workflow runs `npm install && npx tsc --noEmit` for every examp
 ## Questions
 
 Open a [GitHub issue](https://github.com/ragenai/examples/issues) for bugs, requests for new examples, or anything unclear.
+
+## Security
+
+Never open a public issue for a vulnerability — in an example, in the SDK, or in
+the Ragen platform. See [`SECURITY.md`](./SECURITY.md).
+
+The most common security mistake in this repo is a committed credential. Every
+example ships a `.env.example` with empty values; a real `.env` or `.env.local`
+must never be committed, and an API key must never appear in a README, a code
+comment, or a screenshot.
+
+## Licensing
+
+Contributions are accepted under the [Apache License 2.0](./LICENSE), the same
+license that covers the project. By opening a pull request you confirm you have
+the right to contribute the code and agree to license it under those terms.
