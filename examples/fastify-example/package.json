@@ -8,13 +8,13 @@
     "start": "tsx src/server.ts"
   },
   "dependencies": {
-    "@webamigos/ragen-sdk-ts": "^0.2.0",
+    "@webamigos/ragen-sdk-ts": "^0.3.0",
     "dotenv": "^17.4.2",
-    "fastify": "^5.12.1"
+    "fastify": "^5.12.5"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "tsx": "^4.23.13",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

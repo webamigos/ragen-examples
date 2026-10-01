@@ -8,14 +8,14 @@
     "invoke:local": "tsx src/local.ts"
   },
   "dependencies": {
-    "@webamigos/ragen-sdk-ts": "^0.2.0"
+    "@webamigos/ragen-sdk-ts": "^0.3.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.163",
     "@types/node": "^20",
     "dotenv": "^17.4.2",
     "esbuild": "^0.28.2",
-    "tsx": "^4.23.13",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

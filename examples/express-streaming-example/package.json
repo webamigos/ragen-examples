@@ -8,14 +8,14 @@
     "start": "tsx src/server.ts"
   },
   "dependencies": {
-    "@webamigos/ragen-sdk-ts": "^0.2.0",
+    "@webamigos/ragen-sdk-ts": "^0.3.0",
     "dotenv": "^17.4.2",
-    "express": "^4.22.2"
+    "express": "^4.22.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^20",
-    "tsx": "^4.23.13",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
